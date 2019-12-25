@@ -2,7 +2,7 @@ module.exports = {
     root: true,
     parser: 'babel-eslint',
     parserOptions: {
-        "ecmaVersion": 6,
+        "ecmaVersion": 7,
         "sourceType": "module",
         "ecmaFeatures": {
           "jsx": true
@@ -84,7 +84,8 @@ module.exports = {
         "arrow-spacing": 0 //=>的前/后括号
     },
     "env": {
-        "browser": true
+        "browser": true,
+        "es6": true
     },
     "globals": {
     },

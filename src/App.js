@@ -1,33 +1,51 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux';
+import { increment, incrementAsync } from './actions/counter.js';
+import { getUserInfo, getTodoInfo } from './actions/user';
+import { Button } from 'antd';
 
-function App() {
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img
-                    alt="logo"
-                    className="App-logo"
-                    src={logo}
-                />
-                <p>
-                    Edit
-                    {' '}
-                    <code>src/App.js</code>
-                    {' '}
-                      and save to reload.
+class App extends Component {
+    render() {
+        let {isLoading, error, data} = this.props.users;
+        if(error){
+            data = error
+        }else if(isLoading){
+            data = 'Loading..................................'
+        }else{
+            console.log(data)
+        }
+        return (
+            <div className="App">
+                <p className="App-intro">
+                    {this.props.counter}
                 </p>
-                <a className="App-link"
-                    href="https://reactjs.org"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                >
-          Learn React
-                </a>
-            </header>
-        </div>
-    );
+                <Button onClick={this.props.increment}>+同步</Button>
+                <br/>
+                <Button onClick={this.props.incrementAsync}
+                    type="dashed"
+                >+异步</Button>
+                <br/>
+                <Button ghost
+                    onClick={this.props.getUserInfo}
+                    type="danger"
+                >+getUser</Button>
+                <br/>
+                <Button onClick={this.props.getTodoInfo}
+                    type="link"
+                >+getTodo</Button>
+                <p>
+                    {data}
+                </p>
+            </div>
+        );
+    }
 }
+const mapStateToProps = (state) => {
+    return {
+        counter: state.counter,
+        users: state.users
+    };
+};
 
-export default App;
+export default connect(mapStateToProps, { increment, incrementAsync, getUserInfo, getTodoInfo })(App);
